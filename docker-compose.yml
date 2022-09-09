@@ -1,0 +1,10 @@
+version: "3.7"
+
+services:
+  ImgWebPy:
+    image: img-web-py
+    restart: unless-stopped
+    volumes:
+      - ./images:/config/workspace/Random-img-web/img
+    ports:
+      - 9996:5000
