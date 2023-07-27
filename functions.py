@@ -13,5 +13,6 @@ def getimages(imgdir,types):
         ls = glob.glob(f"*.{x}")
     return ls
 def getoneimages(imgdir,types):
-    rphoto = getimages(imgdir,types)[random.randrange(0,len(ls))]
+    ls = getimages(imgdir,types)
+    rphoto = ls[random.randrange(0,len(ls))]
     return rphoto
