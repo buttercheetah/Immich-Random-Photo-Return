@@ -32,7 +32,7 @@ def jpg():
     return send_file(str(imgdir + "/" + rphoto), mimetype='image/gif')
 
 #This returns both jpg and png
-@app.route('/img.jpg',methods = ['POST', 'GET'])
+@app.route('/img',methods = ['POST', 'GET'])
 def both():
     os.chdir(imgdir)
     ls = glob.glob("*.jpg")
