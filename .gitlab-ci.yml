@@ -22,7 +22,6 @@ default:
 
 variables:
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
 stages:          # List of stages for jobs, and their order of execution
   - build
@@ -48,9 +47,20 @@ deploy-job:
   tags:
     - docker
   script: 
+    - |
+      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
+        tag="latest"
+        echo "Running on default branch '$CI_DEFAULT_BRANCH': tag = 'latest'"
+      elif [[ "$CI_COMMIT_BRANCH" == "develop" ]]; then
+        tag="develop"
+        echo "Running on develop branch: tag = 'develop'"
+      else
+        tag=":$CI_COMMIT_REF_SLUG"
+        echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
+      fi
     - docker pull $CONTAINER_TEST_IMAGE
-    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
-    - docker push $CONTAINER_RELEASE_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE "$CI_REGISTRY_IMAGE${tag}"
+    - docker push "$CI_REGISTRY_IMAGE${tag}"
 
 
 
