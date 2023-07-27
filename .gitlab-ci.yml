@@ -18,9 +18,17 @@
 
 stages:          # List of stages for jobs, and their order of execution
   - build
-
+  - deploy
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   tags:
     - docker
   script: docker build -t random-photo-return:$CI_COMMIT_REF_SLUG .
+deploy-job:
+  stage: deploy
+  tags:
+    - docker
+  script: docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
+
+
