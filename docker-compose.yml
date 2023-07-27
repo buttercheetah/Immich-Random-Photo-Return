@@ -5,6 +5,6 @@ services:
     image: glcr.iefi.xyz/bhghdhfh/random-photo-return:latest
     restart: unless-stopped
     volumes:
-      - ./images:/config/workspace/Random-img-web/img
+      - ./images:/images
     ports:
       - 9996:5000
