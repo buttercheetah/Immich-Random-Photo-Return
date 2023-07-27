@@ -16,19 +16,19 @@ def maint():
 #This only returns .png
 @app.route('/img.png',methods = ['POST', 'GET'])
 def png():
-    rphoto = getoneimages(imgdir,'png')
+    rphoto = functions.getoneimages(imgdir,'png')
     return send_file(str(imgdir + "/" + rphoto), mimetype='image/gif')
 
 #This only returns .jpg
 @app.route('/img.jpg',methods = ['POST', 'GET'])
 def jpg():
-    rphoto = getoneimages(imgdir,'jpg')
+    rphoto = functions.getoneimages(imgdir,'jpg')
     return send_file(str(imgdir + "/" + rphoto), mimetype='image/gif')
 
 #This returns both jpg and png
 @app.route('/img',methods = ['POST', 'GET'])
 def both():
-    rphoto = getoneimages(imgdir,['png','jpg'])
+    rphoto = functions.getoneimages(imgdir,['png','jpg'])
     return send_file(str(imgdir + "/" + rphoto), mimetype='image/gif')
 
 if __name__ == '__main__':
