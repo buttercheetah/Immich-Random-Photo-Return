@@ -23,4 +23,4 @@ build-job:       # This job runs in the build stage, which runs first.
   stage: build
   tags:
     - docker
-  script: docker build -t Random-Photo-Return:$CI_COMMIT_REF_SLUG .
+  script: docker build -t random-photo-return:$CI_COMMIT_REF_SLUG .
