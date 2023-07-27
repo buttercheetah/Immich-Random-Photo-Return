@@ -20,21 +20,35 @@ default:
   before_script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
+variables:
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+
 stages:          # List of stages for jobs, and their order of execution
   - build
+  - test
   - deploy
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   tags:
     - docker
-  script: docker build -t glcr.iefi.xyz/bhghdhfh/random-photo-return:$CI_COMMIT_REF_SLUG .
+  script:
+    - docker build --pull -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+test:
+  stage: test
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - echo "running tests.. ladda ladda loo"
+
 deploy-job:
   stage: deploy
   tags:
     - docker
   script: 
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker push glcr.iefi.xyz/bhghdhfh/random-photo-return:$CI_COMMIT_REF_SLUG
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
 
 
 
