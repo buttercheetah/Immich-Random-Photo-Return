@@ -33,13 +33,11 @@ build-job:       # This job runs in the build stage, which runs first.
     - docker
   script:
     - docker build --pull -t $CONTAINER_TEST_IMAGE .
-    - docker push $CONTAINER_TEST_IMAGE
 test:
   stage: test
   tags:
     - docker
   script:
-    - docker pull $CONTAINER_TEST_IMAGE
     - echo "running tests.. ladda ladda loo"
 
 deploy-job:
@@ -58,7 +56,6 @@ deploy-job:
         tag=":$CI_COMMIT_REF_SLUG"
         echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
       fi
-    - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE "$CI_REGISTRY_IMAGE${tag}"
     - docker push "$CI_REGISTRY_IMAGE${tag}"
 
