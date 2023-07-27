@@ -5,9 +5,9 @@ import random
 import time
 import platform
 import glob
-
+import functions
 # Change this value to change where it looks for images
-imgdir = "/config/workspace/Random-img-web/img"
+imgdir = "/images"
 
 @app.route('/')
 def maint():
@@ -16,29 +16,19 @@ def maint():
 #This only returns .png
 @app.route('/img.png',methods = ['POST', 'GET'])
 def png():
-    os.chdir(imgdir)
-    ls = glob.glob("*.png")
-    print(ls)
-    rphoto = ls[random.randrange(0,len(ls))]
+    rphoto = getoneimages(imgdir,'png')
     return send_file(str(imgdir + "/" + rphoto), mimetype='image/gif')
 
 #This only returns .jpg
 @app.route('/img.jpg',methods = ['POST', 'GET'])
 def jpg():
-    os.chdir(imgdir)
-    ls = glob.glob("*.jpg")
-    print(ls)
-    rphoto = ls[random.randrange(0,len(ls))]
+    rphoto = getoneimages(imgdir,'jpg')
     return send_file(str(imgdir + "/" + rphoto), mimetype='image/gif')
 
 #This returns both jpg and png
 @app.route('/img',methods = ['POST', 'GET'])
 def both():
-    os.chdir(imgdir)
-    ls = glob.glob("*.jpg")
-    ls += glob.glob("*.png")
-    print(ls)
-    rphoto = ls[random.randrange(0,len(ls))]
+    rphoto = getoneimages(imgdir,['png','jpg'])
     return send_file(str(imgdir + "/" + rphoto), mimetype='image/gif')
 
 if __name__ == '__main__':

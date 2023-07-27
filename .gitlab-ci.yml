@@ -38,7 +38,7 @@ test:
   tags:
     - docker
   script:
-    - echo "running tests.. ladda ladda loo"
+    - docker run $CONTAINER_TEST_IMAGE python -m unittest test_functions.py
 
 deploy-job:
   stage: deploy
