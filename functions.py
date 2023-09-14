@@ -10,7 +10,7 @@ def getimages(imgdir,types):
     os.chdir(imgdir)
     ls = []
     for x in types:
-        ls = glob.glob(f"*.{x}")
+        ls.extend(glob.glob(f"*.{x}")) 
     return ls
 def getoneimages(imgdir,types):
     ls = getimages(imgdir,types)
