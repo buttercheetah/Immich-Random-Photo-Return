@@ -28,19 +28,19 @@ def jpg():
 
 #This only returns .gif 
 @app.route('/img.gif',methods = ['POST', 'GET'])
-def both():
+def gif():
     rphoto = functions.getoneimages(imgdir,['gif'])
     return send_file(str(imgdir + "/" + rphoto), mimetype='image/gif')
 
 #This returns all image types
 @app.route('/img',methods = ['POST', 'GET'])
-def both():
+def all():
     rphoto = functions.getoneimages(imgdir,['png','jpg','gif'])
     return send_file(str(imgdir + "/" + rphoto), mimetype='image/gif')
 
 #This returns both jpg and png
 @app.route('/still',methods = ['POST', 'GET'])
-def both():
+def still():
     rphoto = functions.getoneimages(imgdir,['png','jpg'])
     return send_file(str(imgdir + "/" + rphoto), mimetype='image/gif')
 
