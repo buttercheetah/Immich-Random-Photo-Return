@@ -1,4 +1,4 @@
-# Version 1.1 7/27/23
+# Version 1.2 9/13/23
 from flask import Flask, redirect, url_for, request, render_template, send_file
 app = Flask(__name__)
 import os
@@ -26,8 +26,20 @@ def jpg():
     rphoto = functions.getoneimages(imgdir,'jpg')
     return send_file(str(imgdir + "/" + rphoto), mimetype='image/gif')
 
-#This returns both jpg and png
+#This only returns .gif 
+@app.route('/img.gif',methods = ['POST', 'GET'])
+def both():
+    rphoto = functions.getoneimages(imgdir,['gif'])
+    return send_file(str(imgdir + "/" + rphoto), mimetype='image/gif')
+
+#This returns all image types
 @app.route('/img',methods = ['POST', 'GET'])
+def both():
+    rphoto = functions.getoneimages(imgdir,['png','jpg','gif'])
+    return send_file(str(imgdir + "/" + rphoto), mimetype='image/gif')
+
+#This returns both jpg and png
+@app.route('/still',methods = ['POST', 'GET'])
 def both():
     rphoto = functions.getoneimages(imgdir,['png','jpg'])
     return send_file(str(imgdir + "/" + rphoto), mimetype='image/gif')
