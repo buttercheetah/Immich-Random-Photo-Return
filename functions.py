@@ -14,6 +14,8 @@ def get_photo_data(api,url):
         if assets == []:
             return get_photo_data(api,url)
         else:
+            if assets[0]['type'] != 'IMAGE':
+                return get_photo_data(api,url)
             return assets[0]
     else:
         raise Exception('Response error')
@@ -33,9 +35,9 @@ def AddDate(ioimage,datetimevar):
     datetime_obj = datetime.fromisoformat(datetimevar[:-1])  # Removing 'Z' from the string
 
     # Format the datetime object to a pretty day, month, year format
-    pretty_date_format = datetime_obj.strftime("%d %B, %Y")
+    pretty_date_format = datetime_obj.strftime("%B %d, %Y")
 
-    print(pretty_date_format)
+    #print(pretty_date_format)
 
     original_image = Image.open(io.BytesIO(ioimage))
 

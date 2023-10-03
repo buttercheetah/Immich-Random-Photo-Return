@@ -9,9 +9,12 @@ IMMICH_API_KEY = os.environ.get('IMMICH_API_KEY', 'default_api_key')
 
 @app.route('/')
 def get_random_image():
-    imagedata = functions.get_photo_data(IMMICH_API_KEY,IMMICH_API_URL)
-    image = functions.getfile(IMMICH_API_KEY,IMMICH_API_URL,imagedata['id'])
-    return send_file(functions.AddDate(image,imagedata['fileCreatedAt']), mimetype='image/jpeg')
+    try:
+        imagedata = functions.get_photo_data(IMMICH_API_KEY,IMMICH_API_URL)
+        image = functions.getfile(IMMICH_API_KEY,IMMICH_API_URL,imagedata['id'])
+        return send_file(functions.AddDate(image,imagedata['fileCreatedAt']), mimetype='image/jpeg')
+    except:
+        return get_random_image()
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8000, debug = True)
