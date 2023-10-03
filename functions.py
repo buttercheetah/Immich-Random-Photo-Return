@@ -1,6 +1,7 @@
-import requests, io, re
+import requests, io, re, os
 from flask import Flask, send_file
-
+from datetime import datetime
+from PIL import Image, ImageDraw, ImageFont
 
 def get_photo_data(api,url):
     # Make a request to Immich API to get a random image URL
@@ -27,6 +28,46 @@ def getfile(api,url,id):
         print(f"{url}/asset/download/{id}")
         print(response)
         raise EnvironmentError
+
+def AddDate(ioimage,datetimevar):
+    datetime_obj = datetime.fromisoformat(datetimevar[:-1])  # Removing 'Z' from the string
+
+    # Format the datetime object to a pretty day, month, year format
+    pretty_date_format = datetime_obj.strftime("%d %B, %Y")
+
+    print(pretty_date_format)
+
+    original_image = Image.open(io.BytesIO(ioimage))
+
+    # Create a drawing object
+    draw = ImageDraw.Draw(original_image)
+
+    # Calculate the position to place the text at the bottom right
+    fontsize = 1  # starting font size
+
+    # portion of image width you want text width to be
+    img_fraction = 0.50
+
+    font = ImageFont.truetype("./Roboto-Light.ttf", fontsize)
+    while font.getsize(pretty_date_format)[0] < img_fraction*original_image.size[0]:
+        # iterate until the text size is just larger than the criteria
+        fontsize += 1
+        font = ImageFont.truetype("./Roboto-Light.ttf", fontsize)
+
+    text_width, text_height = draw.textsize(pretty_date_format, font=font)
+    image_width, image_height = original_image.size
+    x = image_width - text_width - 10  # 10 pixels from the right edge
+    y = image_height - text_height - 10  # 10 pixels from the bottom edge
+
+    # Add the text to the image
+    draw.text((x, y), pretty_date_format, font=font, fill="white")  # You can change the text color
+
+    # Save the modified image
+    
+    byteIO = io.BytesIO()
+    original_image.save(byteIO, format='JPEG')
+    byteIO.seek(0)
+    return byteIO
 
 def cleanurl(url):
     if url[-1] == '/':
