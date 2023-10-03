@@ -67,7 +67,13 @@ def AddDate(ioimage,datetimevar,timezone):
     #------------------------------------------------------------------------------------------------------------
     local_timezone = pytz.timezone(timezone)
     now = datetime.now(local_timezone)
-    pretty_time_format = now.strftime('%H:%M %p')
+    if now.hour > 12:
+        hour = now.hour-12
+        pretty_time_format = now.strftime(f'{hour}:%M %p')
+    elif now.hour == 12:
+        pretty_time_format = now.strftime('%H:%M %p')
+    else:
+        pretty_time_format = now.strftime('%H:%M %a')
         # Calculate the position to place the text at the bottom right
     fontsize = 1  # starting font size
 
