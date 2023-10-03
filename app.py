@@ -10,7 +10,7 @@ IMMICH_API_KEY = os.environ.get('IMMICH_API_KEY', 'default_api_key')
 @app.route('/')
 def get_random_image(run=0,error=False):
     if run==10:
-        return error
+        return str(error)
     try:
         imagedata = functions.get_photo_data(IMMICH_API_KEY,IMMICH_API_URL)
         image = functions.getfile(IMMICH_API_KEY,IMMICH_API_URL,imagedata['id'])
