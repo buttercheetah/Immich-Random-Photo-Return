@@ -2,9 +2,10 @@ version: "3.7"
 
 services:
   ImgWebPy:
-    image: glcr.iefi.xyz/bhghdhfh/random-photo-return:latest
+    image: glcr.iefi.xyz/bhghdhfh/immich-random-photo-return:latest
     restart: unless-stopped
-    volumes:
-      - ./images:/images
+    environment:
+      - IMMICH_API_KEY=<changeme>
+      - IMMICH_API_URL=<changeme>
     ports:
       - 9996:5000
