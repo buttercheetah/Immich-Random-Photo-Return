@@ -6,6 +6,7 @@ app = Flask(__name__)
 
 IMMICH_API_URL = functions.cleanurl(os.environ.get('IMMICH_API_URL', 'default_api_url'))
 IMMICH_API_KEY = os.environ.get('IMMICH_API_KEY', 'default_api_key')
+TIMEZONE = os.environ.get('TIMEZONE', 'UTC')
 
 @app.route('/')
 def get_random_image(run=0,error=False):
@@ -14,7 +15,7 @@ def get_random_image(run=0,error=False):
     try:
         imagedata = functions.get_photo_data(IMMICH_API_KEY,IMMICH_API_URL)
         image = functions.getfile(IMMICH_API_KEY,IMMICH_API_URL,imagedata['id'])
-        return send_file(functions.AddDate(image,imagedata['fileCreatedAt']), mimetype='image/jpeg')
+        return send_file(functions.AddDate(image,imagedata['fileCreatedAt'],TIMEZONE), mimetype='image/jpeg')
     except Exception as e:
         return get_random_image(run+1,e)
 

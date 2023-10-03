@@ -1,4 +1,4 @@
-import requests, io, re, os
+import requests, io, re, os, pytz
 from flask import Flask, send_file
 from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
@@ -31,7 +31,7 @@ def getfile(api,url,id):
         print(response)
         raise EnvironmentError
 
-def AddDate(ioimage,datetimevar):
+def AddDate(ioimage,datetimevar,timezone):
     datetime_obj = datetime.fromisoformat(datetimevar[:-1])  # Removing 'Z' from the string
 
     # Format the datetime object to a pretty day, month, year format
@@ -65,7 +65,8 @@ def AddDate(ioimage,datetimevar):
     draw.text((x, y), pretty_date_format, font=font, fill="white")  # You can change the text color
 
     #------------------------------------------------------------------------------------------------------------
-    now = datetime.now()
+    local_timezone = pytz.timezone(timezone)
+    now = datetime.now(local_timezone)
     pretty_time_format = now.strftime('%H:%M %p')
         # Calculate the position to place the text at the bottom right
     fontsize = 1  # starting font size

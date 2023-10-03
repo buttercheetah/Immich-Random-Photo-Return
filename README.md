@@ -21,4 +21,11 @@ Building the Docker Image
 
 The application will now be accessible at http://localhost:9996.
 ### Docker Cli
-`docker run -d --restart=unless-stopped -p 9996:5000 -e IMMICH_API_URL=<API_URL> -e IMMICH_API_KEY=<API_KEY> glcr.iefi.xyz/bhghdhfh/immich-random-photo-return:latest`
+```
+docker run -d --restart=unless-stopped \
+-p 9996:5000 \
+-e IMMICH_API_URL=<API_URL> \
+-e IMMICH_API_KEY=<API_KEY> \
+-e TIMEZONE=UTC \
+glcr.iefi.xyz/bhghdhfh/immich-random-photo-return:latest
+```

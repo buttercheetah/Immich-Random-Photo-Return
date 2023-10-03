@@ -7,5 +7,6 @@ services:
     environment:
       - IMMICH_API_KEY=<changeme>
       - IMMICH_API_URL=<changeme>
+      - TIMEZONE=UTC
     ports:
       - 9996:5000
