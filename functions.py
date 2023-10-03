@@ -48,7 +48,7 @@ def AddDate(ioimage,datetimevar):
     fontsize = 1  # starting font size
 
     # portion of image width you want text width to be
-    img_fraction = 0.50
+    img_fraction = 0.30
 
     font = ImageFont.truetype("./Roboto-Light.ttf", fontsize)
     while font.getsize(pretty_date_format)[0] < img_fraction*original_image.size[0]:
@@ -64,6 +64,28 @@ def AddDate(ioimage,datetimevar):
     # Add the text to the image
     draw.text((x, y), pretty_date_format, font=font, fill="white")  # You can change the text color
 
+    #------------------------------------------------------------------------------------------------------------
+    now = datetime.now()
+    pretty_time_format = now.strftime('%H:%M %p')
+        # Calculate the position to place the text at the bottom right
+    fontsize = 1  # starting font size
+
+    # portion of image width you want text width to be
+    img_fraction = 0.60
+
+    font = ImageFont.truetype("./Roboto-Light.ttf", fontsize)
+    while font.getsize(pretty_time_format)[0] < img_fraction*original_image.size[0]:
+        # iterate until the text size is just larger than the criteria
+        fontsize += 1
+        font = ImageFont.truetype("./Roboto-Light.ttf", fontsize)
+
+    text_width, text_height = draw.textsize(pretty_time_format, font=font)
+    image_width, image_height = original_image.size
+    x = 10  # 10 pixels from the right edge
+    y = 10  # 10 pixels from the bottom edge
+
+    # Add the text to the image
+    draw.text((x, y), pretty_time_format, font=font, fill="white")  # You can change the text color
     # Save the modified image
     
     byteIO = io.BytesIO()
