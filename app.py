@@ -4,7 +4,7 @@ from flask import Flask, send_file
 app = Flask(__name__)
 
 
-IMMICH_API_URL = os.environ.get('IMMICH_API_URL', 'default_api_url')
+IMMICH_API_URL = functions.cleanurl(os.environ.get('IMMICH_API_URL', 'default_api_url'))
 IMMICH_API_KEY = os.environ.get('IMMICH_API_KEY', 'default_api_key')
 
 @app.route('/')
