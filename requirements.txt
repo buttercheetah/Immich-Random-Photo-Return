@@ -1,4 +1,4 @@
 flask
 pyyaml
 requests
-pillow
+Pillow==9.5.0
