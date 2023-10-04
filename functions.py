@@ -42,6 +42,13 @@ def getfile(api,url,id):
         print(response)
         raise EnvironmentError
 
+def nochangeaimage(ncioimage):
+    ncoriginal_image = Image.open(io.BytesIO(ncioimage))
+    ncdraw = ImageDraw.Draw(ncoriginal_image)
+    ncbyteIO = io.BytesIO()
+    ncoriginal_image.save(ncbyteIO, format='JPEG')
+    ncbyteIO.seek(0)
+    return ncbyteIO
 def AddDate(ioimage,datetimevar,timezone):
     datetime_obj = datetime.fromisoformat(datetimevar[:-1])  # Removing 'Z' from the string
 

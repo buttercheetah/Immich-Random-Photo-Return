@@ -37,3 +37,5 @@ docker run -d --restart=unless-stopped \
 -e IMMICH_ALBUM=all \
 glcr.iefi.xyz/bhghdhfh/immich-random-photo-return:latest
 ```
+## Usage
+Once the container is up, it is accesible at http://localhost:9996. This will return a random image, along with the date it was taken in the bottom right and the current time in the top left. If you do not wish to have this information on screen, go to http://localhost:9996/plain

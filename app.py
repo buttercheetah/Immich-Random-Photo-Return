@@ -11,20 +11,31 @@ IMMICH_ALBUM = os.environ.get('IMMICH_ALBUM', 'all')
 
 if IMMICH_ALBUM != 'all':
     albumdata = functions.get_all_phots_in_album(IMMICH_API_KEY, IMMICH_API_URL, IMMICH_ALBUM)
+def getimg():
+    if IMMICH_ALBUM == 'all':
+        imagedata = functions.get_random_photo_data(IMMICH_API_KEY,IMMICH_API_URL)
+    else:
+        imagedata = random.choice(albumdata)
+    return functions.getfile(IMMICH_API_KEY,IMMICH_API_URL,imagedata['id']), imagedata
 
 @app.route('/')
 def get_random_image(run=0,error=False):
     if run==10:
         return str(error)
     try:
-        if IMMICH_ALBUM == 'all':
-            imagedata = functions.get_random_photo_data(IMMICH_API_KEY,IMMICH_API_URL)
-        else:
-            imagedata = random.choice(albumdata)
-        image = functions.getfile(IMMICH_API_KEY,IMMICH_API_URL,imagedata['id'])
+        image, imagedata = getimg()
         return send_file(functions.AddDate(image,imagedata['fileCreatedAt'],TIMEZONE), mimetype='image/jpeg')
     except Exception as e:
         return get_random_image(run+1,f'{error}\n{str(e)}')
 
+@app.route('/plain')
+def get_random_image_plain(run=0,error=False):
+    if run==10:
+        return str(error)
+    try:
+        image, imagedata = getimg()
+        return send_file(functions.nochangeaimage(image), mimetype='image/jpeg')
+    except Exception as e:
+        return get_random_image(run+1,f'{error}\n{str(e)}')
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8000, debug = True)
