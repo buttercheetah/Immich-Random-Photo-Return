@@ -3,7 +3,7 @@ from flask import Flask, send_file
 from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
 
-def get_photo_data(api,url):
+def get_random_photo_data(api,url):
     # Make a request to Immich API to get a random image URL
     headers = {'x-api-key': api, 'Accept': 'application/json'}
     params = {'count': 1}  # Set count to 1 to get a single random image
@@ -12,11 +12,22 @@ def get_photo_data(api,url):
     if response.status_code == 200:
         assets = response.json()
         if assets == []:
-            return get_photo_data(api,url)
+            return get_random_photo_data(api,url)
         else:
             if assets[0]['type'] != 'IMAGE':
-                return get_photo_data(api,url)
+                return get_random_photo_data(api,url)
             return assets[0]
+    else:
+        raise Exception('Response error')
+
+def get_all_phots_in_album(api,url,album):
+    # Make a request to Immich API to get a random image URL
+    headers = {'x-api-key': api, 'Accept': 'application/json'}
+    response = requests.get(f"{url}/album/{album}", headers=headers)
+
+    if response.status_code == 200:
+        print(f"{album} has {len(response.json()['assets'])} assets")
+        return response.json()['assets']
     else:
         raise Exception('Response error')
 
