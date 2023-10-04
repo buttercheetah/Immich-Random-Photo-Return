@@ -84,7 +84,7 @@ def AddDate(ioimage,datetimevar,timezone):
     elif now.hour == 12:
         pretty_time_format = now.strftime('%H:%M %p')
     else:
-        pretty_time_format = now.strftime('%H:%M %a')
+        pretty_time_format = now.strftime('%H:%M %p')
         # Calculate the position to place the text at the bottom right
     fontsize = 1  # starting font size
 
