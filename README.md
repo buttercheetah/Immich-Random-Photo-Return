@@ -19,7 +19,7 @@ Building the Docker Image
 ### Docker Compose
 1. Clone this repository to your local machine.
     ```shell
-    git clone https://glcr.domain.tld/user/Immich-Random-Photo-Return
+    git clone https://github.com/buttercheetah/Immich-Random-Photo-Return
     cd Immich-Random-Photo-Return
     ```
 2. Change docker-compose env variables
