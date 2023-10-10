@@ -34,7 +34,7 @@ def get_random_image_plain(run=0,error=False):
         return str(error)
     try:
         image, imagedata = getimg()
-        return send_file(image, mimetype='image/jpeg')
+        return send_file(io.BytesIO(image), mimetype='image/jpeg')
     except Exception as e:
         return get_random_image(run+1,f'{error}\n{str(e)}')
 if __name__ == '__main__':
